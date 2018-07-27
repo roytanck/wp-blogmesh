@@ -101,7 +101,7 @@ if( !class_exists('WP_Blogmesh') ){
 				$original_url = get_post_meta( $post->ID, '_wpbm_original_url', true );
 				if( !empty( $original_url ) ){
 					$html .= '<a class="wpbm-button" href="' . $original_url . '" target="_blank">' . __( 'View original post', 'wp-blogmesh' ) . '</a>';
-					$html .= '<a class="wpbm-button" href="#">' . __( 'Re-post', 'wp-blogmesh' ) . '</a>';
+					//$html .= '<a class="wpbm-button" href="#">' . __( 'Re-post', 'wp-blogmesh' ) . '</a>';
 				}
 				$html .= '</div>';
 			}
