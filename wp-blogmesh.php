@@ -59,6 +59,8 @@ if( !class_exists('WP_Blogmesh') ){
 			add_action( 'wp_footer', array( $this, 'add_page_css' ) );
 			// add our CSS to the footer
 			add_action( 'wp_head', array( $this, 'insert_meta_tags' ) );
+			// hook into the_editor_content to insert content for the re-post
+			add_filter( 'the_editor_content', array( $this, 'prepare_reblog_content' ), 10, 1 );
 		}
 
 
@@ -101,7 +103,7 @@ if( !class_exists('WP_Blogmesh') ){
 				$original_url = get_post_meta( $post->ID, '_wpbm_original_url', true );
 				if( !empty( $original_url ) ){
 					$html .= '<a class="wpbm-button" href="' . $original_url . '" target="_blank">' . __( 'View original post', 'wp-blogmesh' ) . '</a>';
-					//$html .= '<a class="wpbm-button" href="#">' . __( 'Re-post', 'wp-blogmesh' ) . '</a>';
+					$html .= '<a class="wpbm-button" href="' . admin_url('post-new.php') . '?blogmesh_reblog=' . $post->ID . '&post_title=REBLOG: ' . $post->post_title . '">' . __( 'Re-blog', 'wp-blogmesh' ) . '</a>';
 				}
 				$html .= '</div>';
 			}
@@ -141,6 +143,43 @@ if( !class_exists('WP_Blogmesh') ){
 					echo '<meta name="' . $name . '" content="' . $content . '" />';
 				}
 			}
+		}
+
+
+		/**
+		 * Prepare content based on a cached post, to be used in a re-blog
+		 *
+		 * @param string $content The default content (likely empty)
+		 * @return string An HTML snippet with a quote from the original post
+		 */
+		public function prepare_reblog_content( $content ){
+			// check if the reblog url parameter is set
+			if( !isset( $_GET['blogmesh_reblog'] ) || !is_numeric( $_GET['blogmesh_reblog'] ) ){
+				return $content;
+			}
+			// get the post ID for the cached post we're about to re-blog
+			$reblog_id = intval( $_GET['blogmesh_reblog'] );
+			// check if the ID is a valid cached post
+			if( empty( $reblog_id ) || get_post_type( $reblog_id ) != 'wpbm_rss_cache' ){
+				return $content;
+			}
+			// gather data we'll need
+			$reblog_post = get_post( $reblog_id );
+			$reblog_author = get_post_meta( $reblog_id, '_wpbm_original_author', true );
+			$reblog_url = get_post_meta( $reblog_id, '_wpbm_original_url', true );
+			$reblog_img = get_post_meta( $reblog_id, '_wpbm_item_img', true );
+			// assemble the HTML to send to the editor
+			$html = '<blockquote>';
+			if( !empty( $reblog_img ) ){
+				$html .= '<p><img src="' . $reblog_img . '" alt="" /><p>';
+			}
+			$html .= $reblog_post->post_content;
+			$html .= '</blockquote>';
+			$html .= '<a href="' . $reblog_url . '">' . $reblog_author . '</a>';
+			$html .= '<cite>';
+			$html .= '</cite>';
+			// return the content
+			return $html;
 		}
 
 	}
