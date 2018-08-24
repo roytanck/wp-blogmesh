@@ -50,14 +50,11 @@ class WPBM_Widget_Friends extends WP_Widget {
 			foreach( $friends as $friend ){
 				$site_url = get_post_meta( $friend->ID, '_wpbm_site_url', true );
 				$feed_url = get_post_meta( $friend->ID, '_wpbm_feed_url', true );
-				echo '<li style="display: flex; justify-content: space-between;">';
+				echo '<li>';
 				if( !empty( $site_url ) && 'https://' != $site_url ){
 					echo '<a href="' . $site_url . '">' . $friend->post_title . '</a>';
 				} else {
 					echo $friend->post_title;
-				}
-				if( !empty( $feed_url ) && 'https://' != $feed_url ){
-					echo '&nbsp;<a href="' . $feed_url . '" class="wpbm-button">' . __( 'follow', 'wp-blogmesh' ) . '</a>';
 				}
 				echo '</li>';
 			}

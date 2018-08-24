@@ -82,23 +82,14 @@ if( !class_exists('WP_Blogmesh_CPT_Friends') ){
 		 * @param WP_Post $post The post object of the post being edited
 		 */
 		public function display_metabox( $post ){
-			// get the currently stored site URL for this friend
-			$site_url = get_post_meta( $post->ID, '_wpbm_site_url', true );
-			if( empty( $site_url ) ){
-				$site_url = 'https://';
-			}
-
 			// get the currently stored RSS feed URL for this friend
 			$feed_url = get_post_meta( $post->ID, '_wpbm_feed_url', true );
 			if( empty( $feed_url ) ){
 				$feed_url = 'https://';
 			}
 
-			echo '<Label for="wpbm_site_url">' . __( 'Blog URL', 'wp-blogmesh' ) . '</label>';
-			echo '<input style="text" name="wpbm_site_url" id="wpbm_site_url" class="widefat" value="' . $site_url . '" />';
-
-			echo '<Label for="wpbm_feed_url">' . __( 'RSS feed URL', 'wp-blogmesh' ) . '</label>';
-			echo '<input style="text" name="wpbm_feed_url" id="wpbm_feed_url" class="widefat" value="' . $feed_url . '" />';
+			echo '<p><Label for="wpbm_feed_url">' . __( 'RSS feed URL', 'wp-blogmesh' ) . '</label>';
+			echo '<input style="text" name="wpbm_feed_url" id="wpbm_feed_url" class="code widefat" value="' . $feed_url . '" /></p>';
 
 			wp_nonce_field( 'wpbm_save_metabox', 'wpbm_nonce_field' );
 		}
@@ -115,8 +106,6 @@ if( !class_exists('WP_Blogmesh_CPT_Friends') ){
 			if ( ! current_user_can( 'edit_post', $post_id ) ) { return; }
 
 			// sanitize and store the feed URL
-			$site_url = esc_url_raw( $_POST['wpbm_site_url'] );
-			update_post_meta( $post_id, '_wpbm_site_url', $site_url );
 			$feed_url = esc_url_raw( $_POST['wpbm_feed_url'] );
 			update_post_meta( $post_id, '_wpbm_feed_url', $feed_url );
 		}

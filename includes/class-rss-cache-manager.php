@@ -105,6 +105,11 @@ if( !class_exists('WPBM_RSS_Cache_Manager') ){
 			$rss = fetch_feed( $feed_url );
 			// check if error
 			if( !is_wp_error( $rss ) ){
+				// update the friend's blog URL
+				$site_url = $rss->get_permalink();
+				if( !empty( $site_url ) ){
+					update_post_meta( $friend_id, '_wpbm_site_url', $site_url );
+				}
 				// get the items from the feed
 				$maxitems = $rss->get_item_quantity( 100 );
 				$rss_items = $rss->get_items( 0, $maxitems );
