@@ -1,5 +1,8 @@
 <?php
 
+// check if called directly
+if( !defined( 'ABSPATH' ) ){ exit; }
+
 /**
  * Adds widget
  */
