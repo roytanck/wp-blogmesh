@@ -3,7 +3,7 @@
 Plugin Name: WP Blogmesh
 Plugin URI: http://www.roytanck.com
 Description: Transforms your blog into a social network
-Version: 0.1
+Version: 0.8
 Author: Roy Tanck
 Text Domain: wp-blogmesh
 Domain Path: /languages
