@@ -18,7 +18,30 @@ Blogmesh uses existing, well-established standards like RSS. This means that man
 More info on [blogmesh.org](https://blogmesh.org)
 
 == Installation ==
-1. Install the plugin from wp-admin\'s plugins screen.
+1. Install the plugin from the plugins screen in wp-admin.
 2. Activate the plugin.
 3. Start adding friends.
 4. Visit you blog's homepage (when logged in) to see their updates.
+
+== Frequently Asked Questions ==
+
+= Will this work with any theme? =
+
+WP Blogmesh was designed to work with any theme, but your luck may vary. Blogging-oriented themes will likely work best. Please check WordPress's settings under "Reading" to see where your blog timeline is displayed. If you're setting up a new blog for this, I find that Twenty Fifteen works well, as does Colorlib's 'Sparkling' theme.
+
+= How do I uninstall WP Blogmesh? =
+
+When you deactivate WP Blogmesh on the plugins screen in wp-admin, you'll no longer see the friends section, and your homepage will contain just your posts. The current version of the plugin does not remove cached posts from the database. If you'd like to completely remove all Blogmesh content from the database, please use the ['Custom Post Type Cleanup' plugin](https://wordpress.org/plugins/custom-post-type-cleanup/) to completely delete the following post types.
+
+* wpbm_friends
+* wpbm_rss_cache
+
+== Screenshots ==
+ 
+1. The "friends" section, where you manage which blogs and sites you'd like to follow.
+ 
+== Changelog ==
+
+= 0.8 =
+
+* Initial release.
